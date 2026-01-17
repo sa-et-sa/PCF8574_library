@@ -966,7 +966,7 @@ uint8_t PCF8574::digitalRead(uint8_t pin, bool forceReadNow){
 	 }else if (forceReadNow || (millis() - PCF8574::lastReadMillis > latency)){
 		 PCF8574_DEBUG_PRINT(" ...Read from buffer... ");
 		  uint8_t bytesRead = _wire->requestFrom(_address, (uint8_t)1); // Begin transmission to PCF8574 with the buttons
-		  this->transmissionStatus = (bytesRead == 1) ? 0 : 1;
+		  this->transmissionStatus = (bytesRead != 0) ? 0 : 4; // return "Other error" similar from endTransmission
 		  lastReadMillis = millis();
 		  if(_wire->available())   // If bytes are available to be recieved
 		  {
